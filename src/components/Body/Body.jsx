@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BrowseByCuisine from "./BrowseByCuisine";
+import RestaurantList from "./RestaurantList";
 
 function Body() {
     const [browseByCuisineData, setBrowseByCuisineData] = useState([]);
@@ -25,6 +26,7 @@ function Body() {
   return (
     <div className="w-[75%] mx-auto mt-3 overflow-hidden">
       <BrowseByCuisine  data={browseByCuisineData}/>
+      <RestaurantList data = {restaurantListData}/>
     </div>
   );
 }
