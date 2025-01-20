@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-function BrowseByCuisine({data}) {
+function BrowseByCuisine({ data }) {
   const [value, setValue] = useState(0);
 
   function handleLeftPart() {
