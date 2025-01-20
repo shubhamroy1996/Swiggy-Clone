@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import RestaurantList from "./RestaurantList";
 
 function TopRestaurant({ data }) {
-
   const [value, setValue] = useState(0);
 
   function scrollLeftSide() {
@@ -56,8 +55,13 @@ function TopRestaurant({ data }) {
         style={{ translate: `-${value}%` }}
         className={`flex mt-4 gap-6  duration-300 `}
       >
-        <RestaurantList data={data} />
+        {data.map(({ info, cta: { link } }) => (
+          <div className="hover:scale-95 duration-200" key={info?.id}>
+            <RestaurantList {...info} link={link} />
+          </div>
+        ))}
       </div>
+      <hr className="border" />
     </>
   );
 }

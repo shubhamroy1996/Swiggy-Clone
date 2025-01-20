@@ -11,8 +11,14 @@ function AllRestaurantDelivery({ data }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-10 mt-4">
-        <RestaurantList data={data} />
+        {data.map(({ info, cta: { link } }) => (
+          <div className="hover:scale-95 duration-200" key={info.id}>
+            <RestaurantList {...info} link={link} />
+          </div>
+        ))}
       </div>
+
+      <hr className="border" />
     </>
   );
 }
