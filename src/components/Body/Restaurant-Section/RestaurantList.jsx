@@ -87,6 +87,7 @@ function RestaurantList({ data }) {
           </div>
         ))}
       </div>
+      <hr className="border" />
     </>
   );
 }

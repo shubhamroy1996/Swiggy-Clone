@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import BrowseByCuisine from "./BrowseByCuisine";
-import RestaurantList from "./RestaurantList";
+import BrowseByCuisine from "./Cuisine-Section/BrowseByCuisine";
+import RestaurantList from "./Restaurant-Section/RestaurantList";
+import AllRestaurantDelivery from "./Restaurant-Section/AllRestaurantDelivery";
 
 function Body() {
     const [browseByCuisineData, setBrowseByCuisineData] = useState([]);
     const [restaurantListData, setRestaurantListData] = useState([])
+    const [allRestaurantListData, setAllRestaurantListData] = useState([])
   
 
   async function FetchData() {
@@ -15,7 +17,8 @@ function Body() {
     // console.log(result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     setBrowseByCuisineData(result?.data?.cards[0]?.card?.card?.imageGridCards?.info);
     setRestaurantListData(result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-    console.log(result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    setAllRestaurantListData(result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+    console.log(result?.data);
 
   }
 
@@ -27,6 +30,8 @@ function Body() {
     <div className="w-[75%] mx-auto mt-3 overflow-hidden">
       <BrowseByCuisine  data={browseByCuisineData}/>
       <RestaurantList data = {restaurantListData}/>
+      <AllRestaurantDelivery data={allRestaurantListData} />
+
     </div>
   );
 }
