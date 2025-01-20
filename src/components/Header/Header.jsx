@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "./Logo";
+import { Outlet } from "react-router-dom";
 
 function Header() {
   const navItems = [
@@ -36,6 +37,7 @@ function Header() {
   ];
 
   return (
+    <>
     <div className="w-full shadow-md h-20 flex justify-center items-center">
       <div className=" w-[80%] flex justify-between">
         <Logo />
@@ -50,6 +52,8 @@ function Header() {
         </div>
       </div>
     </div>
+      <Outlet/>
+      </>
   );
 }
 
