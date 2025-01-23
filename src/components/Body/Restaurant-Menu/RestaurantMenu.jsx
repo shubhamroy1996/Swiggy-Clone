@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import DiscountData from "./DiscountData";
 import RestaurantInfo from "./RestaurantInfo";
+import RestaurantMenuCard from "./RestaurantMenuCard";
 
 function RestaurantMenu() {
   const [menuData, setMenuData] = useState([]);
@@ -13,20 +14,24 @@ function RestaurantMenu() {
 
   async function fetchMenu() {
     const data = await fetch(
-      `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=12.9566294&lng=77.70468230000002&restaurantId=${newId}&catalog_qa=undefined&submitAction=ENTER`
+      `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=28.7040592&lng=77.10249019999999&restaurantId=${newId}&catalog_qa=undefined&submitAction=ENTER`
     );
     const result = await data.json();
-    console.log(result?.data?.cards[2]?.card?.card?.info);
-    console.log(
-      "********",
-      result?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.offers
-    );
+    //console.log(result?.data?.cards[2]?.card?.card?.info);
+    
     setRestaurantInfo(result?.data?.cards[2]?.card?.card?.info);
     setDiscountData(
       result?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.offers
     );
-    setMenuData(result?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR);
+    let actualMenu = (result?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter(data => data?.card?.card?.itemCards)
+    setMenuData(actualMenu);
+
+    
+    console.log("********",actualMenu);
+
   }
+
+  
 
   useEffect(() => {
     fetchMenu();
@@ -39,6 +44,8 @@ function RestaurantMenu() {
           <RestaurantInfo restaurantInfo={restaurantInfo} />
 
           <DiscountData discountData={discountData} />
+
+          <RestaurantMenuCard menuData = {menuData}/>
         </div>
       </div>
     </>

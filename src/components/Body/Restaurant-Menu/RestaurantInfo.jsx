@@ -69,7 +69,7 @@ function RestaurantInfo({ restaurantInfo }) {
                         }
                         alt=""
                       />
-
+                        <hr/>
                       <span className="text-sm ml-4 text-gray-500 font-normal">
                         {restaurantInfo?.expectationNotifiers[0]?.enrichedText?.replace(
                           /<[^>]*>/g,
