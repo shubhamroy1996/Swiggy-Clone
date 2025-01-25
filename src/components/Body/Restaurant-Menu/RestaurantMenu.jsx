@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import DiscountData from "./DiscountData";
 import RestaurantInfo from "./RestaurantInfo";
 import RestaurantMenuCard from "./RestaurantMenuCard";
@@ -8,6 +8,7 @@ function RestaurantMenu() {
   const [menuData, setMenuData] = useState([]);
   const [restaurantInfo, setRestaurantInfo] = useState([]);
   const [discountData, setDiscountData] = useState([]);
+  const [topPick, setTopPick] = useState({})
 
   const { id } = useParams();
   let newId = id.split("rest")[1];
@@ -26,9 +27,12 @@ function RestaurantMenu() {
     let actualMenu = (result?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).
     filter(data => data?.card?.card?.itemCards || data?.card?.card?.categories)
     setMenuData(actualMenu);
-
     
-    console.log("********&&&&",actualMenu);
+    let topPickItem = ((result?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter(data=> data?.card?.card?.title === "Top Picks")[0])
+    
+    setTopPick(topPickItem)
+
+    console.log(topPickItem)
 
   }
 
@@ -44,7 +48,7 @@ function RestaurantMenu() {
         <div className="w-[810px] mx-auto pt-8">
           <RestaurantInfo restaurantInfo={restaurantInfo} />
 
-          <DiscountData discountData={discountData} />
+          <DiscountData discountData={discountData} topPick= {topPick} />
 
           <RestaurantMenuCard menuData = {menuData}/>
         </div>
