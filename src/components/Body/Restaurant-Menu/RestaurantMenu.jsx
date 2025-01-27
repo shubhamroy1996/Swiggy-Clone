@@ -8,7 +8,7 @@ function RestaurantMenu() {
   const [menuData, setMenuData] = useState([]);
   const [restaurantInfo, setRestaurantInfo] = useState([]);
   const [discountData, setDiscountData] = useState([]);
-  const [topPick, setTopPick] = useState({})
+  const [topPick, setTopPick] = useState(null);
 
   const { id } = useParams();
   let newId = id.split("rest")[1];
@@ -19,24 +19,25 @@ function RestaurantMenu() {
     );
     const result = await data.json();
     //console.log(result?.data?.cards[2]?.card?.card?.info);
-    
+
     setRestaurantInfo(result?.data?.cards[2]?.card?.card?.info);
     setDiscountData(
       result?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.offers
     );
-    let actualMenu = (result?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).
-    filter(data => data?.card?.card?.itemCards || data?.card?.card?.categories)
+    let actualMenu =
+      (result?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter(
+        (data) => data?.card?.card?.itemCards || data?.card?.card?.categories
+      );
     setMenuData(actualMenu);
-    
-    let topPickItem = ((result?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter(data=> data?.card?.card?.title === "Top Picks")[0])
-    
-    setTopPick(topPickItem)
 
-    console.log(topPickItem)
+    let topPickItem =
+      (result?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter(
+        (data) => data?.card?.card?.title == "Top Picks"
+      )[0];
+    setTopPick(topPickItem);
 
+    console.log(topPickItem);
   }
-
-  
 
   useEffect(() => {
     fetchMenu();
@@ -48,9 +49,9 @@ function RestaurantMenu() {
         <div className="w-[810px] mx-auto pt-8">
           <RestaurantInfo restaurantInfo={restaurantInfo} />
 
-          <DiscountData discountData={discountData} topPick= {topPick} />
+          <DiscountData discountData={discountData} />
 
-          <RestaurantMenuCard menuData = {menuData}/>
+          <RestaurantMenuCard menuData={menuData} topPick={topPick} />
         </div>
       </div>
     </>
