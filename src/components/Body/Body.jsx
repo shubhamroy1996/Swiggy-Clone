@@ -17,9 +17,6 @@ function Body() {
     // console.log(result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     setBrowseByCuisineData(result?.data?.cards[0]?.card?.card?.imageGridCards?.info);
     setRestaurantListData(result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-    //setAllRestaurantListData(result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-    console.log("DATA=>",result?.data);
-
   }
 
   useEffect(() => {

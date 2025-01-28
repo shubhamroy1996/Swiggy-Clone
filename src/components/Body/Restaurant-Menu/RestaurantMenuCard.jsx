@@ -96,7 +96,7 @@ function RestaurantMenuCard({ menuData, topPick }) {
               })}
             </div>
           </div>
-          <hr className="border my-5" />
+          <hr className="border h-[16px] bg-gray-100 mt-8" />
         </>
       )}
 
