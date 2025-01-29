@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function RestaurantInfo({ restaurantInfo }) {
   return (
     <div className="w-full">
-      <div className="w-[810px] mx-auto pt-8">
+      <div className="w-[810px] mx-auto">
         <p className="text-[10px] text-slate-500 ">
           {" "}
           <Link to={"/"}>
