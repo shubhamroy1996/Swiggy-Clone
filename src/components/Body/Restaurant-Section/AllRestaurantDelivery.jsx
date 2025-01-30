@@ -1,12 +1,12 @@
 import React from "react";
 import RestaurantList from "./RestaurantList";
 
-function AllRestaurantDelivery({ data }) {
+function AllRestaurantDelivery({ data, title }) {
   return (
     <>
       <div className="flex justify-between mt-5 rounded-lg">
         <h2 className="text-2xl font-bold ">
-          Restaurants with online food delivery in Bangalore
+          {title}
         </h2>
       </div>
 

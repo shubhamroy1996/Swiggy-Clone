@@ -8,6 +8,9 @@ function Body() {
   const [browseByCuisineData, setBrowseByCuisineData] = useState([]);
   const [restaurantListData, setRestaurantListData] = useState([]);
   const [allRestaurantListData, setAllRestaurantListData] = useState([]);
+  const [topRestaurantTitle, setTopRestaurantTitle] = useState("")
+  const [onlineRestaurantTitle, setOnlineRestaurantTitle] = useState("")
+
 
   const {coordinate: { latitude, longitude },} = useContext(Coordinates);
 
@@ -24,6 +27,8 @@ function Body() {
       result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
     );
+    setTopRestaurantTitle(result?.data?.cards[1]?.card?.card?.header?.title)
+    setOnlineRestaurantTitle(result?.data?.cards[2]?.card?.card?.title)
   }
 
   useEffect(() => {
@@ -33,8 +38,8 @@ function Body() {
   return (
     <div className="w-[75%] mx-auto mt-3 overflow-hidden">
       <BrowseByCuisine data={browseByCuisineData}/>
-      <TopRestaurant data={restaurantListData}/>
-      <AllRestaurantDelivery data={restaurantListData}/>
+      <TopRestaurant data={restaurantListData} title={topRestaurantTitle}/>
+      <AllRestaurantDelivery data={restaurantListData} title = {onlineRestaurantTitle}/>
     </div>
   );
 }

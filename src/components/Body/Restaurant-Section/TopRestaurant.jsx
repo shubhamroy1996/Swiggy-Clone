@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import RestaurantList from "./RestaurantList";
 
-function TopRestaurant({ data }) {
+function TopRestaurant({ data =[], title}) {
   const [value, setValue] = useState(0);
 
   function scrollLeftSide() {
@@ -16,7 +16,7 @@ function TopRestaurant({ data }) {
     <>
       <div className="flex justify-between mt-5 rounded-lg">
         <h2 className="text-2xl font-bold ">
-          Top restaurant chains in Bangalore
+          {title}
         </h2>
         <div className="flex gap-3">
           <div
