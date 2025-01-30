@@ -8,6 +8,7 @@ function Header() {
   const { setcoordinate } = useContext(Coordinates);
 
   const [searchResult, setSearchResult] = useState([]);
+  const [address, setAddress] = useState("")
 
   function handleVisibility() {
     setVisible((prev) => !prev);
@@ -34,6 +35,7 @@ function Header() {
       latitude: result.data[0].geometry.location.lat,
       longitude: result.data[0].geometry.location.lng,
     });
+    setAddress(result.data[0].formatted_address);
   }
 
   function handleSearchFunctionality() {
@@ -78,22 +80,22 @@ function Header() {
         <div
           onClick={handleVisibility}
           className={
-            "w-full bg-black/50 z-30 h-full absolute " +
+            "w-full bg-gray-900/50 z-30 h-full absolute " +
             (visible ? "visible " : " invisible")
           }
         ></div>
         <div
           className={
-            " bg-white  w-full md:w-[40%] h-full p-5 z-40 absolute duration-500 " +
+            " bg-white  w-full md:w-[562px] h-full p-5 z-40 absolute duration-500 " +
             (visible ? "left-0" : "-left-[100%]")
           }
         >
-          <div className="flex flex-col gap-4 mt-3 w-full lg-[50%] mr-6">
+          <div className="flex flex-col gap-4 mt-3 pr-8 pl-32 lg-[50%] mr-6">
             <i className="fi fi-br-cross " onClick={handleVisibility}></i>
             <input
               type="text"
               placeholder="Search for area, street name.."
-              className="border p-5 focus:outline-none focus:shadow-lg font-bold text-gray-300 "
+              className="border p-5 focus:outline-none focus:shadow-xl font-bold h-[50px] text-gray-300 "
               onChange={(e) => searchLocation(e.target.value)}
             />
 
@@ -115,7 +117,7 @@ function Header() {
 
         <div className="w-full shadow-md z-20 h-20 flex justify-center items-center">
           <div className=" w-[80%] flex justify-between">
-            <Logo handleVisibility={handleSearchFunctionality} />
+            <Logo handleVisibility={handleSearchFunctionality} address={address} />
 
             <div className="flex items-center gap-12">
               {navItems.map((item) => (
