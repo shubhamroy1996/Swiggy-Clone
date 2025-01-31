@@ -1,14 +1,15 @@
 import React, { useContext, useState } from "react";
 import Logo from "./Logo";
 import { Outlet } from "react-router-dom";
-import { Coordinates, Visibility } from "../../context/contextApi";
+import { Coordinates, Visibility, CartContext } from "../../context/contextApi";
 
 function Header() {
   const { visible, setVisible } = useContext(Visibility);
   const { setcoordinate } = useContext(Coordinates);
+  const { cartValue } = useContext(CartContext);
 
   const [searchResult, setSearchResult] = useState([]);
-  const [address, setAddress] = useState("")
+  const [address, setAddress] = useState("");
 
   function handleVisibility() {
     setVisible((prev) => !prev);
@@ -30,7 +31,7 @@ function Header() {
       `https://www.swiggy.com/dapi/misc/address-recommend?place_id=${id}`
     );
     const result = await data.json();
-
+    handleVisibility();
     setcoordinate({
       latitude: result.data[0].geometry.location.lat,
       longitude: result.data[0].geometry.location.lng,
@@ -41,6 +42,7 @@ function Header() {
   function handleSearchFunctionality() {
     setVisible((prev) => !prev);
   }
+
   const navItems = [
     {
       id: 1,
@@ -99,17 +101,31 @@ function Header() {
               onChange={(e) => searchLocation(e.target.value)}
             />
 
-            <div>
+            <div className="border p-5 ">
               <ul>
-                {searchResult.map((data, i) => (
-                  <li
-                    key={i}
-                    onClick={() => getLatitudeAndLongitude(data.place_id)}
-                  >
-                    {data.structured_formatting.main_text}
-                    <p>{data.structured_formatting.secondary_text}</p>
-                  </li>
-                ))}
+                {searchResult.map((data, index) => {
+                  const isLast = index === searchResult.length - 1;
+                  return (
+                    <div className="my-5 cursor-pointer" key={index}>
+                      <div className="flex gap-4">
+                        <i className="fi mt-1 fi-rr-marker"></i>
+                        <li
+                          onClick={() => getLatitudeAndLongitude(data.place_id)}
+                        >
+                          {data.structured_formatting.main_text}
+                          <p className="text-sm opacity-65">
+                            {data.structured_formatting.secondary_text}
+                          </p>
+                          {!isLast && (
+                            <p className="opacity-35">
+                              ----------------------------------
+                            </p>
+                          )}
+                        </li>
+                      </div>
+                    </div>
+                  );
+                })}
               </ul>
             </div>
           </div>
@@ -117,7 +133,10 @@ function Header() {
 
         <div className="w-full shadow-md z-20 h-20 flex justify-center items-center">
           <div className=" w-[80%] flex justify-between">
-            <Logo handleVisibility={handleSearchFunctionality} address={address} />
+            <Logo
+              handleVisibility={handleSearchFunctionality}
+              address={address}
+            />
 
             <div className="flex items-center gap-12">
               {navItems.map((item) => (
@@ -128,6 +147,7 @@ function Header() {
                   <p className="text-base font-medium text-gray-600">
                     {item.name}
                   </p>
+                  {item.name === "Cart" && <p>{cartValue?.length}</p>}
                 </div>
               ))}
             </div>
