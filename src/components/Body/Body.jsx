@@ -10,6 +10,7 @@ function Body() {
   const [allRestaurantListData, setAllRestaurantListData] = useState([]);
   const [topRestaurantTitle, setTopRestaurantTitle] = useState("")
   const [onlineRestaurantTitle, setOnlineRestaurantTitle] = useState("")
+  const [unserviceable, setUnserviceable] = useState([])
 
 
   const {coordinate: { latitude, longitude },} = useContext(Coordinates);
@@ -23,6 +24,7 @@ function Body() {
     setBrowseByCuisineData(
       result?.data?.cards[0]?.card?.card?.imageGridCards?.info
     );
+    setUnserviceable(result.data)
     setRestaurantListData(
       result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants
@@ -34,6 +36,19 @@ function Body() {
   useEffect(() => {
     FetchData();
   }, [latitude, longitude]);
+
+  if (unserviceable.communication || unserviceable.tid == "") {
+    return (
+        <div className="flex mt-44 overflow-hidden justify-center items-center flex-col">
+            <img
+                className="w-72"
+                src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_476,h_476/portal/m/location_unserviceable.png"
+                alt=""
+            />
+            <h1>Location unservicalbe</h1>
+        </div>
+    );
+}
 
   return (
     <div className="w-[75%] mx-auto mt-3 overflow-hidden">
