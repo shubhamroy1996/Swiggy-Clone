@@ -5,6 +5,7 @@ import { Visibility, Coordinates, CartContext } from "./context/contextApi";
 
 import { Route, Routes } from "react-router-dom";
 import RestaurantMenu from "./components/Body/Restaurant-Menu/RestaurantMenu";
+import Cart from "./components/Body/Cart/Cart";
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -23,6 +24,8 @@ function App() {
             <Route path="/" element={<Header />}>
               <Route path="/" element={<Body />} />
               <Route path="/restaurantMenu/:id" element={<RestaurantMenu />} />
+              <Route path="/cart" element={<Cart />} />
+
             </Route>
           </Routes>
         </div>

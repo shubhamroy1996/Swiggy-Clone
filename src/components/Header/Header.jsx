@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Logo from "./Logo";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Coordinates, Visibility, CartContext } from "../../context/contextApi";
 
 function Header() {
@@ -73,6 +73,7 @@ function Header() {
       id: 6,
       name: "Cart",
       icon: "fi-rr-shopping-cart-add",
+      path: "/cart"
     },
   ];
 
@@ -137,7 +138,7 @@ function Header() {
               handleVisibility={handleSearchFunctionality}
               address={address}
             />
-
+            <Link to={"/cart"}>
             <div className="flex items-center gap-12">
               {navItems.map((item) => (
                 <div key={item.id} className="flex items-center gap-2">
@@ -151,6 +152,7 @@ function Header() {
                 </div>
               ))}
             </div>
+            </Link>
           </div>
         </div>
       </div>
