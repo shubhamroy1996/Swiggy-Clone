@@ -25,6 +25,8 @@ function App() {
               <Route path="/" element={<Body />} />
               <Route path="/restaurantMenu/:id" element={<RestaurantMenu />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="*" element={<h1 className="items-center text-center my-14">Coming Soon...</h1>} />
+
 
             </Route>
           </Routes>

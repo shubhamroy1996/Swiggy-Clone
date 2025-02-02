@@ -48,26 +48,31 @@ function Header() {
       id: 1,
       name: "Swiggy Corporate",
       icon: "fi fi-rr-shopping-bag",
+      path: "/corporate"
     },
     {
       id: 2,
       name: "Search",
       icon: "fi fi-rr-search",
+      path: "/search"
     },
     {
       id: 3,
       name: "Offers",
       icon: "fi fi-rr-badge-percent",
+      path: "/offers"
     },
     {
       id: 4,
       name: "Help",
       icon: "fi fi-sr-life-ring",
+      path: "/help"
     },
     {
       id: 5,
       name: "Sign In",
       icon: "fi fi-rr-user",
+      path: "/signIn"
     },
     {
       id: 6,
@@ -138,9 +143,9 @@ function Header() {
               handleVisibility={handleSearchFunctionality}
               address={address}
             />
-            <Link to={"/cart"}>
             <div className="flex items-center gap-12">
               {navItems.map((item) => (
+                <Link to={item.path}>
                 <div key={item.id} className="flex items-center gap-2">
                   <i
                     className={"text-xl text-gray-600 mt-1 fi " + item.icon}
@@ -150,9 +155,9 @@ function Header() {
                   </p>
                   {item.name === "Cart" && <p>{cartValue?.length}</p>}
                 </div>
+                </Link>
               ))}
             </div>
-            </Link>
           </div>
         </div>
       </div>
