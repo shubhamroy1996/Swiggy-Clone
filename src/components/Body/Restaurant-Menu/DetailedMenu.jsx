@@ -31,6 +31,8 @@ function DetailedMenu({ info }) {
   let trimDescription = description?.substring(0, 140) + "...";
 
   function handleAddToCart() {
+    const itemAdded = cartValue.find((data)=> data.id === info.id)
+    if(!itemAdded)
     setCartValue((prev)=> [...prev, info])
   }
 
