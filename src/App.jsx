@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/Header/Header";
 import Body from "./components/Body/Body";
 import { Visibility, Coordinates, CartContext } from "./context/contextApi";
@@ -14,6 +14,14 @@ function App() {
     latitude: 28.7040592,
     longitude: 77.10249019999999,
   });
+
+  function getDataFromLocalStorage()
+ {
+  let data = JSON.parse(localStorage.getItem("cartValue")) || []
+  setCartValue(data)
+ }
+
+ useEffect(()=>{getDataFromLocalStorage()},[])
 
   return (
   <CartContext.Provider value={{cartValue, setCartValue}}>

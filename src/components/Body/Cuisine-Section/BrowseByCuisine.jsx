@@ -18,7 +18,6 @@ function BrowseByCuisine({ data }) {
         <div className="flex gap-3">
           <div
             onClick={handleLeftPart}
-            // className=" bg-gray-200 cursor-pointer rounded-full w-9 h-9 flex justify-center items-center">
             className={
               ` cursor-pointer rounded-full w-9 h-9 flex justify-center items-center ` +
               (value <= 0 ? "bg-gray-100" : "bg-gray-200")
@@ -33,7 +32,6 @@ function BrowseByCuisine({ data }) {
           </div>
           <div
             onClick={handleRightPart}
-            // className="bg-gray-200 cursor-pointer rounded-full w-9 h-9 flex justify-center items-center "
             className={
               ` cursor-pointer rounded-full w-9 h-9 flex justify-center items-center ` +
               (value >= 124 ? "bg-gray-100" : "bg-gray-200")

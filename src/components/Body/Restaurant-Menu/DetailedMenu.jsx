@@ -32,8 +32,10 @@ function DetailedMenu({ info }) {
 
   function handleAddToCart() {
     const itemAdded = cartValue.find((data)=> data.id === info.id)
-    if(!itemAdded)
-    setCartValue((prev)=> [...prev, info])
+    if(!itemAdded){
+      setCartValue((prev)=> [...prev, info])
+      localStorage.setItem("cartValue", JSON.stringify([...cartValue, info]))
+    }
   }
 
   return (
