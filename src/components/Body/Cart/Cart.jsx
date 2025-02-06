@@ -7,10 +7,14 @@ function Cart() {
   const { cartValue, setCartValue } = useContext(CartContext);
 
   function handleRemoveFromCart(i) {
+    if(cartValue.length > 1) {
     let newArray = [...cartValue]
     newArray.splice(i,1)
     setCartValue(newArray)
     localStorage.setItem("cartValue",  JSON.stringify(newArray))
+    }else {
+      handleClearCart()
+    }
   }
 
   // let totalPrice = 0
@@ -31,7 +35,12 @@ function Cart() {
             </div>
         </div>
     );
-}  
+  }
+  
+  function handleClearCart() {
+    setCartValue([])
+    localStorage.clear()
+  }
 
   return (
     <Link to={"/cart"}>
@@ -57,6 +66,9 @@ function Cart() {
             </div>
           ))}
           <h1 className="font-bold text-lg text-gray-600 mt-3">Total Price : ₹{totalPrice}</h1>
+          <button onClick={handleClearCart} className="bg-green-600">
+            Clear Cart
+          </button>
         </div>
       </div>
     </Link>

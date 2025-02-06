@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DetailedMenu from "./DetailedMenu";
 
-function MenuList({ card }) {
+function MenuList({ card, restaurantInfo }) {
   const [isOpen, setisOpen] = useState(true);
 
   function toggleDropDown() {
@@ -24,7 +24,7 @@ function MenuList({ card }) {
               onClick={toggleDropDown}
             ></i>
           </div>
-          {isOpen && <MenuSection itemCards={itemCards} />}
+          {isOpen && <MenuSection itemCards={itemCards} restaurantInfo={restaurantInfo}/>}
         </div>
         <hr className="border h-[16px] bg-gray-100 mt-4 mb-4" />
       </>
@@ -54,11 +54,11 @@ function MenuList({ card }) {
   }
 }
 
-function MenuSection({ itemCards }) {
+function MenuSection({ itemCards, restaurantInfo }) {
   return (
     <div className="my-5">
       {itemCards.map(({ card: { info } }) => (
-        <DetailedMenu key={info.id} info={info} />
+        <DetailedMenu key={info.id} info={info} restaurantInfo={restaurantInfo}/>
       ))}
     </div>
   );
