@@ -51,7 +51,7 @@ function RestaurantMenu() {
 
           <DiscountData discountData={discountData} />
 
-          <RestaurantMenuCard menuData={menuData} topPick={topPick} />
+          <RestaurantMenuCard menuData={menuData} topPick={topPick} restaurantInfo={restaurantInfo} />
         </div>
       </div>
     </>

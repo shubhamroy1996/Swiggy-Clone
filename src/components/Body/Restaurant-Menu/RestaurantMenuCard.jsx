@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import MenuList from "./MenuList";
 
-function RestaurantMenuCard({ menuData, topPick }) {
+function RestaurantMenuCard({ menuData, topPick, restaurantInfo }) {
   const [value, setValue] = useState(0);
   let newData = topPick?.card?.card?.carousel;
 
@@ -102,7 +102,7 @@ function RestaurantMenuCard({ menuData, topPick }) {
 
       <div className="w-[800px] mx-auto pt-8">
         {menuData.map(({ card: { card } }) => (
-          <MenuList card={card} />
+          <MenuList card={card} restaurantInfo={restaurantInfo}/>
         ))}
       </div>
     </>

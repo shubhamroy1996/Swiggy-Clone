@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { CartContext } from "../../../context/contextApi";
 
-function DetailedMenu({ info }) {
+function DetailedMenu({ info, restaurantInfo }) {
   let veg =
     "https://www.pngkey.com/png/detail/261-2619381_chitr-veg-symbol-svg-veg-and-non-veg.png";
   let nonVeg =
@@ -31,10 +31,18 @@ function DetailedMenu({ info }) {
   let trimDescription = description?.substring(0, 140) + "...";
 
   function handleAddToCart() {
+    //console.log(restaurantInfo)
     const itemAdded = cartValue.find((data)=> data.id === info.id)
+    let getRestaurantInfoFromLocale = JSON.parse(localStorage.getItem('restaurantInfo')) || []
     if(!itemAdded){
+      if(getRestaurantInfoFromLocale.name === restaurantInfo.name || getRestaurantInfoFromLocale.length === 0){
       setCartValue((prev)=> [...prev, info])
       localStorage.setItem("cartValue", JSON.stringify([...cartValue, info]))
+      localStorage.setItem("restaurantInfo", JSON.stringify(restaurantInfo))
+      }
+      else {
+        alert("Different restaurant Item")
+      }
     }
   }
 
