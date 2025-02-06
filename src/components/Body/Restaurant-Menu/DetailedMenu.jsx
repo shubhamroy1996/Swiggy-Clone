@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import { CartContext } from "../../../context/contextApi";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../../utils/cartSlice";
 
 function DetailedMenu({ info, restaurantInfo }) {
   let veg =
@@ -8,7 +10,12 @@ function DetailedMenu({ info, restaurantInfo }) {
     "https://www.kindpng.com/picc/m/151-1515155_veg-icon-png-non-veg-symbol-png-transparent.png";
 
   const [showMore, setShowMore] = useState(false);
-  const {cartValue, setCartValue} = useContext(CartContext)
+  //const {cartValue, setCartValue} = useContext(CartContext)
+
+  const cartValue = useSelector((state) => state.cartSlice.cartItems);
+  let getRestaurantInfoFromLocale = useSelector(
+    (state) => state.cartSlice.restaurantInfo
+  );
 
   const {
     name,
@@ -23,25 +30,25 @@ function DetailedMenu({ info, restaurantInfo }) {
     },
   } = info;
 
-
   function displayDescription() {
     setShowMore(!showMore);
   }
 
   let trimDescription = description?.substring(0, 140) + "...";
+  let dispatch = useDispatch();
 
   function handleAddToCart() {
     //console.log(restaurantInfo)
-    const itemAdded = cartValue.find((data)=> data.id === info.id)
-    let getRestaurantInfoFromLocale = JSON.parse(localStorage.getItem('restaurantInfo')) || []
-    if(!itemAdded){
-      if(getRestaurantInfoFromLocale.name === restaurantInfo.name || getRestaurantInfoFromLocale.length === 0){
-      setCartValue((prev)=> [...prev, info])
-      localStorage.setItem("cartValue", JSON.stringify([...cartValue, info]))
-      localStorage.setItem("restaurantInfo", JSON.stringify(restaurantInfo))
-      }
-      else {
-        alert("Different restaurant Item")
+    const itemAdded = cartValue.find((data) => data.id === info.id);
+
+    if (!itemAdded) {
+      if (
+        getRestaurantInfoFromLocale.name === restaurantInfo.name ||
+        getRestaurantInfoFromLocale.length === 0
+      ) {
+        dispatch(addToCart({ info, restaurantInfo }));
+      } else {
+        alert("Different restaurant Item");
       }
     }
   }
