@@ -1,18 +1,25 @@
 import React, { useContext, useState } from "react";
 import Logo from "./Logo";
 import { Link, Outlet } from "react-router-dom";
-import { Coordinates, Visibility, CartContext } from "../../context/contextApi";
+import { Coordinates, CartContext } from "../../context/contextApi";
+import { useDispatch, useSelector } from "react-redux";
+import {toggleSearchBar} from "../../utils/toggleSlice"
 
 function Header() {
-  const { visible, setVisible } = useContext(Visibility);
+  //const { visible, setVisible } = useContext(Visibility);
   const { setcoordinate } = useContext(Coordinates);
-  const { cartValue } = useContext(CartContext);
+
+  const cartValue = useSelector((state) => state.cartSlice.cartItems)
+
+  const visible = useSelector((state) => state.toggleSlice.searchBarToggle) //accessing initial data from redux store using useSelector
+  const dispatch = useDispatch()
 
   const [searchResult, setSearchResult] = useState([]);
   const [address, setAddress] = useState("");
 
   function handleVisibility() {
-    setVisible((prev) => !prev);
+    //setVisible((prev) => !prev);
+    dispatch(toggleSearchBar())
   }
 
   async function searchLocation(value) {
@@ -37,10 +44,6 @@ function Header() {
       longitude: result.data[0].geometry.location.lng,
     });
     setAddress(result.data[0].formatted_address);
-  }
-
-  function handleSearchFunctionality() {
-    setVisible((prev) => !prev);
   }
 
   const navItems = [
@@ -140,7 +143,7 @@ function Header() {
         <div className="w-full shadow-md z-20 h-20 flex justify-center items-center">
           <div className=" w-[80%] flex justify-between">
             <Logo
-              handleVisibility={handleSearchFunctionality}
+              handleVisibility={handleVisibility}
               address={address}
             />
             <div className="flex items-center gap-12">
