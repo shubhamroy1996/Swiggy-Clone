@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {toggleSearchBar} from "../../utils/toggleSlice"
 
 function Header() {
-  //const { visible, setVisible } = useContext(Visibility);
   const { setcoordinate } = useContext(Coordinates);
 
   const cartValue = useSelector((state) => state.cartSlice.cartItems)
@@ -18,7 +17,6 @@ function Header() {
   const [address, setAddress] = useState("");
 
   function handleVisibility() {
-    //setVisible((prev) => !prev);
     dispatch(toggleSearchBar())
   }
 
@@ -146,9 +144,9 @@ function Header() {
               handleVisibility={handleVisibility}
               address={address}
             />
-            <div className="flex items-center gap-12">
+            <div key={ navItems.id} className="flex items-center gap-12">
               {navItems.map((item) => (
-                <Link to={item.path}>
+                <Link to={item.path} key={item.id}>
                 <div key={item.id} className="flex items-center gap-2">
                   <i
                     className={"text-xl text-gray-600 mt-1 fi " + item.icon}
