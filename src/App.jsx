@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import RestaurantMenu from "./components/Body/Restaurant-Menu/RestaurantMenu";
 import Cart from "./components/Body/Cart/Cart";
 import { useSelector } from "react-redux";
+import SignIn from "./components/Header/SignIn";
 
 function App() {
   const [coordinate, setcoordinate] = useState({
@@ -24,6 +25,8 @@ function App() {
             <Route path="/" element={<Body />} />
             <Route path="/restaurantMenu/:id" element={<RestaurantMenu />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/signIn" element={<SignIn />} />
+
             <Route
               path="*"
               element={
