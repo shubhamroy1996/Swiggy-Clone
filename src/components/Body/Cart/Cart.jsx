@@ -1,12 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-import { CartContext } from "../../../context/contextApi";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart, deleteFromCart } from "../../../utils/cartSlice";
+import toast from "react-hot-toast";
 
 function Cart() {
-  //const { cartValue, setCartValue } = useContext(CartContext);
 
   const cartValue = useSelector((state) => state.cartSlice.cartItems)
   const dispatch = useDispatch()
@@ -15,10 +14,12 @@ function Cart() {
     if(cartValue.length > 1) {
       let newArray = [...cartValue]
       newArray.splice(i,1)
-    //setCartValue(newArray)
     dispatch(deleteFromCart(newArray))
-    }else {
+    toast.success("Item Removed from Cart")
+    }
+    else {
       handleClearCart()
+      toast.success('cart is cleared!!!')
     }
   }
 

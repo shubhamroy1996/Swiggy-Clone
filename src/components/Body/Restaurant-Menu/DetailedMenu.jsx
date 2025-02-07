@@ -1,7 +1,9 @@
-import React, { useContext, useState } from "react";
-import { CartContext } from "../../../context/contextApi";
+import React, { useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../../utils/cartSlice";
+import { addToCart, clearCart } from "../../../utils/cartSlice";
+import { toggleDifferentRestaurant } from "../../../utils/toggleSlice";
+import toast from "react-hot-toast";
 
 function DetailedMenu({ info, restaurantInfo }) {
   let veg =
@@ -10,12 +12,15 @@ function DetailedMenu({ info, restaurantInfo }) {
     "https://www.kindpng.com/picc/m/151-1515155_veg-icon-png-non-veg-symbol-png-transparent.png";
 
   const [showMore, setShowMore] = useState(false);
-  //const {cartValue, setCartValue} = useContext(CartContext)
 
   const cartValue = useSelector((state) => state.cartSlice.cartItems);
+  const isDifferentRestaurant = useSelector(
+    (state) => state.toggleSlice.isDifferentRestaurant
+  );
   let getRestaurantInfoFromLocale = useSelector(
     (state) => state.cartSlice.restaurantInfo
   );
+  let dispatch = useDispatch();
 
   const {
     name,
@@ -30,15 +35,13 @@ function DetailedMenu({ info, restaurantInfo }) {
     },
   } = info;
 
+  let trimDescription = description?.substring(0, 140) + "...";
+
   function displayDescription() {
     setShowMore(!showMore);
   }
 
-  let trimDescription = description?.substring(0, 140) + "...";
-  let dispatch = useDispatch();
-
   function handleAddToCart() {
-    //console.log(restaurantInfo)
     const itemAdded = cartValue.find((data) => data.id === info.id);
 
     if (!itemAdded) {
@@ -47,10 +50,23 @@ function DetailedMenu({ info, restaurantInfo }) {
         getRestaurantInfoFromLocale.length === 0
       ) {
         dispatch(addToCart({ info, restaurantInfo }));
+        toast.success("item added to cart");
       } else {
-        alert("Different restaurant Item");
+        dispatch(toggleDifferentRestaurant());
+        toast.error("Different restaurant Item");
       }
+    } else {
+      toast.error("Already added");
     }
+  }
+
+  function handleDifferentRestaurant() {
+    dispatch(toggleDifferentRestaurant());
+  }
+
+  function handleClearCart() {
+    dispatch(clearCart());
+    handleDifferentRestaurant();
   }
 
   return (
@@ -96,7 +112,7 @@ function DetailedMenu({ info, restaurantInfo }) {
           <button
             onClick={handleAddToCart}
             className="bg-white absolute bottom-[20px] left-1/2 -translate-x-1/2 text-lg
-                   text-green-600 font-bold rounded-xl border px-10 py-1 drop-shadow"
+                   text-green-600 font-bold rounded-xl border px-10 py-1 drop-shadow hover:bg-gray-200"
           >
             ADD
           </button>
@@ -106,6 +122,32 @@ function DetailedMenu({ info, restaurantInfo }) {
         </div>
       </div>
       <hr className="border my-5" />
+      {isDifferentRestaurant && (
+        <div className="w-[520px] h-[204px] flex flex-col gap-2 left-[33%] p-8 border z-50 fixed bottom-10 bg-white">
+          <h1 className="text-[#282c3f] font-bold text-[20px]">
+            Items already in cart
+          </h1>
+          <p className="text-sm text-slate-600 font-semibold">
+            Your cart contains items from other restaurant. Would you like to
+            reset your cart for adding items from this restaurant?
+          </p>
+          <div className="flex justify-between gap-3 w-full uppercase">
+            <button
+              onClick={handleDifferentRestaurant}
+              className="border-2 w-1/2 p-3 border-green-600 text-[#60b246] font-bold"
+            >
+              {" "}
+              NO
+            </button>
+            <button
+              onClick={handleClearCart}
+              className="  w-1/2 p-3 bg-[#60b246] text-white font-bold"
+            >
+              YES, START AFRESH
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
