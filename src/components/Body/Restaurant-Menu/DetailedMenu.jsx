@@ -141,7 +141,7 @@ function DetailedMenu({ info, restaurantInfo }) {
             </button>
             <button
               onClick={handleClearCart}
-              className="  w-1/2 p-3 bg-[#60b246] text-white font-bold"
+              className="w-1/2 p-3 bg-[#60b246] text-white font-bold"
             >
               YES, START AFRESH
             </button>
