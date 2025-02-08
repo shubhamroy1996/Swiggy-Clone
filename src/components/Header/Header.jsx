@@ -1,23 +1,26 @@
 import React, { useContext, useState } from "react";
 import Logo from "./Logo";
 import { Link, Outlet } from "react-router-dom";
-import { Coordinates, CartContext } from "../../context/contextApi";
+import { Coordinates } from "../../context/contextApi";
 import { useDispatch, useSelector } from "react-redux";
-import {toggleSearchBar} from "../../utils/toggleSlice"
+import { toggleSearchBar } from "../../utils/toggleSlice";
 
 function Header() {
-  const { setcoordinate } = useContext(Coordinates);
-
-  const cartValue = useSelector((state) => state.cartSlice.cartItems)
-
-  const visible = useSelector((state) => state.toggleSlice.searchBarToggle) //accessing initial data from redux store using useSelector
-  const dispatch = useDispatch()
 
   const [searchResult, setSearchResult] = useState([]);
   const [address, setAddress] = useState("");
 
+  const { setcoordinate } = useContext(Coordinates);
+
+  //accessing initial data from redux store using useSelector
+  const cartValue = useSelector((state) => state.cartSlice.cartItems);
+  const userData = useSelector((state) => state.authSlice.userData);
+  const visible = useSelector((state) => state.toggleSlice.searchBarToggle); 
+
+  const dispatch = useDispatch();
+
   function handleVisibility() {
-    dispatch(toggleSearchBar())
+    dispatch(toggleSearchBar());
   }
 
   async function searchLocation(value) {
@@ -49,37 +52,37 @@ function Header() {
       id: 1,
       name: "Swiggy Corporate",
       icon: "fi fi-rr-shopping-bag",
-      path: "/corporate"
+      path: "/corporate",
     },
     {
       id: 2,
       name: "Search",
       icon: "fi fi-rr-search",
-      path: "/search"
+      path: "/search",
     },
     {
       id: 3,
       name: "Offers",
       icon: "fi fi-rr-badge-percent",
-      path: "/offers"
+      path: "/offers",
     },
     {
       id: 4,
       name: "Help",
       icon: "fi fi-sr-life-ring",
-      path: "/help"
+      path: "/help",
     },
     {
       id: 5,
       name: "Sign In",
       icon: "fi fi-rr-user",
-      path: "/signIn"
+      path: "/signIn",
     },
     {
       id: 6,
       name: "Cart",
       icon: "fi-rr-shopping-cart-add",
-      path: "/cart"
+      path: "/cart",
     },
   ];
 
@@ -91,14 +94,13 @@ function Header() {
           className={
             "w-full bg-gray-900/50 z-30 h-full absolute " +
             (visible ? "visible " : " invisible")
-          }
-        ></div>
+          }>
+        </div>
         <div
           className={
             " bg-white  w-full md:w-[562px] h-full p-5 z-40 absolute duration-500 " +
             (visible ? "left-0" : "-left-[100%]")
-          }
-        >
+          }>
           <div className="flex flex-col gap-4 mt-3 pr-8 pl-32 lg-[50%] mr-6">
             <i className="fi fi-br-cross " onClick={handleVisibility}></i>
             <input
@@ -140,24 +142,45 @@ function Header() {
 
         <div className="w-full shadow-md z-20 h-20 flex justify-center items-center">
           <div className=" w-[80%] flex justify-between">
-            <Logo
-              handleVisibility={handleVisibility}
-              address={address}
-            />
-            <div key={ navItems.id} className="flex items-center gap-12">
-              {navItems.map((item) => (
-                <Link to={item.path} key={item.id}>
-                <div key={item.id} className="flex items-center gap-2">
-                  <i
-                    className={"text-xl text-gray-600 mt-1 fi " + item.icon}
-                  ></i>
-                  <p className="text-base font-medium text-gray-600">
-                    {item.name}
-                  </p>
-                  {item.name === "Cart" && <p>{cartValue?.length}</p>}
-                </div>
-                </Link>
-              ))}
+            <Logo handleVisibility={handleVisibility} address={address} />
+            <div key={navItems.id} className="flex items-center gap-12">
+              {navItems.map((item) =>
+                item.name == "Sign In" ? (
+                  <Link to={item.path} key={item.id}>
+                    <div key={item.id} className="flex items-center gap-2">
+                      {userData ? (
+                        <img
+                          src={userData.profilePhoto}
+                          className="rounded-full w-12"
+                          alt=""
+                        />
+                      ) : (
+                        <i
+                          className={
+                            "text-xl text-gray-600 mt-1 fi " + item.icon
+                          }
+                        ></i>
+                      )}
+                      <p className="text-base font-medium text-gray-600">
+                        {userData ? userData.name : item.name}
+                      </p>
+                      {item.name === "Cart" && <p>{cartValue?.length}</p>}
+                    </div>
+                  </Link>
+                ) : (
+                  <Link to={item.path} key={item.id}>
+                    <div key={item.id} className="flex items-center gap-2">
+                      <i
+                        className={"text-xl text-gray-600 mt-1 fi " + item.icon}
+                      ></i>
+                      <p className="text-base font-medium text-gray-600">
+                        {item.name}
+                      </p>
+                      {item.name === "Cart" && <p>{cartValue?.length}</p>}
+                    </div>
+                  </Link>
+                )
+              )}
             </div>
           </div>
         </div>
