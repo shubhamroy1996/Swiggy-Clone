@@ -16,10 +16,11 @@ function App() {
   });
 
   const visible = useSelector((state) => state.toggleSlice.searchBarToggle);
+  const loginVisible = useSelector((state)=> state.toggleSlice.loginVisible)
 
   return (
     <Coordinates.Provider value={{ coordinate, setcoordinate }}>
-      <div className={visible ? "max-h-screen overflow-hidden" : ""}>
+      <div className={visible || loginVisible ? "max-h-screen overflow-hidden" : ""}>
         <Routes>
           <Route path="/" element={<Header />}>
             <Route path="/" element={<Body />} />

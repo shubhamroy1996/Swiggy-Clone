@@ -33,7 +33,6 @@ function Cart() {
     if (userData) {
       toast.success("Order Placed");
       dispatch(clearCart());
-      navigate("/");
     } else {
       toast.error("Please Login to place Order");
       navigate("/signIn");
@@ -93,8 +92,9 @@ function Cart() {
             </div>
           ))}
           <h1 className="font-bold text-lg text-gray-600 mt-3">
-            Total Price : ₹{totalPrice}
+            Total Price :  ₹{totalPrice}
           </h1>
+          
           <button
             onClick={handleClearCart}
             className="w-1/3 p-3 bg-[#60b246] text-white font-bold"

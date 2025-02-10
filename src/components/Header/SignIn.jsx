@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUserData, removeUserData } from "../../utils/authSlice";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import { toggleLogin } from "../../utils/toggleSlice";
 
 const SignIn = () => {
   const [error, setError] = useState(null);
@@ -21,6 +22,7 @@ const SignIn = () => {
         profilePhoto: data.user.photoURL,
       };
       dispatch(addUserData(userData));
+      dispatch(toggleLogin());
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -31,11 +33,10 @@ const SignIn = () => {
   const signOutGoogleUser = async () => {
     await signOut(auth);
     dispatch(removeUserData());
-
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-bold mb-4 text-center">Sign In</h2>
 
@@ -51,7 +52,7 @@ const SignIn = () => {
         ) : (
           <button
             onClick={logGoogleUser}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+            className="bg-orange-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
           >
             Sign in with Google
           </button>

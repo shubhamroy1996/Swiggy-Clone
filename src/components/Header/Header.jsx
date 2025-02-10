@@ -3,10 +3,10 @@ import Logo from "./Logo";
 import { Link, Outlet } from "react-router-dom";
 import { Coordinates } from "../../context/contextApi";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleSearchBar } from "../../utils/toggleSlice";
+import { toggleLogin, toggleSearchBar } from "../../utils/toggleSlice";
+import Login from "./Login";
 
 function Header() {
-
   const [searchResult, setSearchResult] = useState([]);
   const [address, setAddress] = useState("");
 
@@ -15,12 +15,17 @@ function Header() {
   //accessing initial data from redux store using useSelector
   const cartValue = useSelector((state) => state.cartSlice.cartItems);
   const userData = useSelector((state) => state.authSlice.userData);
-  const visible = useSelector((state) => state.toggleSlice.searchBarToggle); 
+  const visible = useSelector((state) => state.toggleSlice.searchBarToggle);
+  const loginVisible = useSelector((state) => state.toggleSlice.loginVisible);
 
   const dispatch = useDispatch();
 
   function handleVisibility() {
     dispatch(toggleSearchBar());
+  }
+
+  function handleUserLogin() {
+    dispatch(toggleLogin());
   }
 
   async function searchLocation(value) {
@@ -94,13 +99,14 @@ function Header() {
           className={
             "w-full bg-gray-900/50 z-30 h-full absolute " +
             (visible ? "visible " : " invisible")
-          }>
-        </div>
+          }
+        ></div>
         <div
           className={
             " bg-white  w-full md:w-[562px] h-full p-5 z-40 absolute duration-500 " +
             (visible ? "left-0" : "-left-[100%]")
-          }>
+          }
+        >
           <div className="flex flex-col gap-4 mt-3 pr-8 pl-32 lg-[50%] mr-6">
             <i className="fi fi-br-cross " onClick={handleVisibility}></i>
             <input
@@ -140,13 +146,18 @@ function Header() {
           </div>
         </div>
 
-        <div className="w-full shadow-md z-20 h-20 flex justify-center items-center">
+        <Login loginVisible={loginVisible} handleLogin={handleUserLogin} />
+
+        <div className="w-full shadow-md z-20 h-20 flex justify-center items-center">  
           <div className=" w-[80%] flex justify-between">
             <Logo handleVisibility={handleVisibility} address={address} />
-            <div key={navItems.id} className="flex items-center gap-12">
+            <div
+              key={navItems.id}
+              className="flex items-center gap-12 cursor-pointer"
+            >
               {navItems.map((item) =>
                 item.name == "Sign In" ? (
-                  <Link to={item.path} key={item.id}>
+                  <div to={item.path} key={item.id} onClick={handleUserLogin}>
                     <div key={item.id} className="flex items-center gap-2">
                       {userData ? (
                         <img
@@ -166,7 +177,7 @@ function Header() {
                       </p>
                       {item.name === "Cart" && <p>{cartValue?.length}</p>}
                     </div>
-                  </Link>
+                  </div>
                 ) : (
                   <Link to={item.path} key={item.id}>
                     <div key={item.id} className="flex items-center gap-2">
