@@ -13,7 +13,7 @@ function Logo({ handleVisibility, address }) {
           <div className="flex items-center gap-3" onClick={handleVisibility}>
             <p className="flex hover:text-orange-600 text-ellipsis font-bold underline underline-offset-4">
               Other
-            <span className="ml-2 max-w-[250px] text-sm opacity-85 line-clamp-1">
+            <span className=" ml-2 max-w-[200px] text-sm opacity-85 line-clamp-1">
               {address}
             </span>
             </p>

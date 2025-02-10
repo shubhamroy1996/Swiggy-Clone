@@ -18,7 +18,7 @@ function TopRestaurant({ data =[], title}) {
         <h2 className="text-2xl font-bold ">
           {title}
         </h2>
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           <div
             onClick={scrollLeftSide}
             // className=" bg-gray-200 cursor-pointer rounded-full w-9 h-9 flex justify-center items-center">
