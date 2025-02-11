@@ -5,7 +5,14 @@ const toggleSlice = createSlice({
   initialState: {
     searchBarToggle: false,
     isDifferentRestaurant: false,
-    loginVisible: false
+    loginVisible: false,
+    similarRestaurantDish: {
+      isSimiliarRestaurantDishes: false,
+      city: "",
+      restaurantLocation: "",
+      restaurantId: "",
+      itemId: "",
+    },
   },
   reducers: {
     toggleSearchBar: (state) => {
@@ -15,12 +22,28 @@ const toggleSlice = createSlice({
       state.isDifferentRestaurant = !state.isDifferentRestaurant;
     },
     toggleLogin: (state) => {
-      state.loginVisible = !state.loginVisible
-
-    }
+      state.loginVisible = !state.loginVisible;
+    },
+    setSimilarRestaurantDish: (state, action) => {
+      state.similarRestaurantDish = action.payload;
+    },
+    resetSimilarRestaurantDish: (state) => {
+      state.similarRestaurantDish = {
+        isSimiliarRestaurantDishes: false,
+        city: "",
+        resLocation: "",
+        resId: "",
+        itemId: "",
+      };
+    },
   },
 });
 
-export const { toggleSearchBar, toggleDifferentRestaurant, toggleLogin } =
-  toggleSlice.actions;
+export const {
+  toggleSearchBar,
+  toggleDifferentRestaurant,
+  toggleLogin,
+  setSimilarRestaurantDish,
+  resetSimilarRestaurantDish,
+} = toggleSlice.actions;
 export default toggleSlice.reducer;
