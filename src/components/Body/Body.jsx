@@ -4,6 +4,7 @@ import AllRestaurantDelivery from "./Restaurant-Section/AllRestaurantDelivery";
 import TopRestaurant from "./Restaurant-Section/TopRestaurant";
 import { Coordinates } from "../../context/contextApi";
 import { useSelector } from "react-redux";
+import Shimmer from "./Shimmer/Shimmer";
 
 function Body() {
   const [browseByCuisineData, setBrowseByCuisineData] = useState([]);
@@ -12,7 +13,9 @@ function Body() {
   const [onlineRestaurantTitle, setOnlineRestaurantTitle] = useState("");
   const [unserviceable, setUnserviceable] = useState([]);
 
-  const {coordinate: { latitude, longitude }} = useContext(Coordinates);
+  const {
+    coordinate: { latitude, longitude },
+  } = useContext(Coordinates);
 
   const filterVal = useSelector((state) => state?.filterSlice?.filterVal);
 
@@ -23,11 +26,25 @@ function Body() {
     const result = await data.json();
 
     setUnserviceable(result.data);
-    setBrowseByCuisineData(result?.data?.cards.find((data)=> data?.card?.card?.id == "whats_on_your_mind")?.card?.card?.imageGridCards?.info)
-    let restaurantGridDataList= result?.data?.cards.find((data)=> data?.card?.card?.id == "top_brands_for_you")?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    setBrowseByCuisineData(
+      result?.data?.cards.find(
+        (data) => data?.card?.card?.id == "whats_on_your_mind"
+      )?.card?.card?.imageGridCards?.info
+    );
+    let restaurantGridDataList = result?.data?.cards.find(
+      (data) => data?.card?.card?.id == "top_brands_for_you"
+    )?.card?.card?.gridElements?.infoWithStyle?.restaurants;
     setRestaurantListData(restaurantGridDataList);
-    setTopRestaurantTitle(result?.data?.cards.find((data)=> data?.card?.card?.id == "top_brands_for_you")?.card?.card?.header?.title);
-    setOnlineRestaurantTitle(result?.data?.cards.find((data)=> data?.card?.card?.id == "popular_restaurants_title")?.card?.card?.title);
+    setTopRestaurantTitle(
+      result?.data?.cards.find(
+        (data) => data?.card?.card?.id == "top_brands_for_you"
+      )?.card?.card?.header?.title
+    );
+    setOnlineRestaurantTitle(
+      result?.data?.cards.find(
+        (data) => data?.card?.card?.id == "popular_restaurants_title"
+      )?.card?.card?.title
+    );
 
     // setBrowseByCuisineData(result?.data?.cards[0]?.card?.card?.imageGridCards?.info);
   }
@@ -70,16 +87,27 @@ function Body() {
   });
 
   return (
-   
-      <div className="w-[95%] md:w-[75%] mx-auto mt-3 overflow-hidden">
-        <BrowseByCuisine data={browseByCuisineData} />
-        <TopRestaurant data={restaurantListData} title={topRestaurantTitle} />
-        <AllRestaurantDelivery
-          data={filterVal ? filteredData : restaurantListData}
-          title={onlineRestaurantTitle}
-        />
-      </div>
-   
+    <>
+      {restaurantListData.length ? (
+        <>
+          <div className="w-[95%] h-[253px] md:w-[75%] mx-auto mt-3 overflow-hidden">
+            <BrowseByCuisine data={browseByCuisineData} />
+          </div>
+          <div className="w-[95%] md:w-[75%] mx-auto mt-3 overflow-hidden">
+            <TopRestaurant
+              data={restaurantListData}
+              title={topRestaurantTitle}
+            />
+            <AllRestaurantDelivery
+              data={filterVal ? filteredData : restaurantListData}
+              title={onlineRestaurantTitle}
+            />
+          </div>
+        </>
+      ) : (
+        <Shimmer />
+      )}
+    </>
   );
 }
 
