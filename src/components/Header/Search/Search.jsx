@@ -3,6 +3,8 @@ import SearchRestaurant, { withHoc } from "./SearchRestaurant";
 
 import Dish from "./Dish";
 import { useDispatch, useSelector } from "react-redux";
+import { Coordinates } from "../../../context/contextApi";
+
 
 function Search() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,15 +12,16 @@ function Search() {
   const [restaurantData, setRestaurantData] = useState([]);
   const [selectedRestaurantDish, setSelectedRestaurantDish] = useState(null);
   const [similarRestaurantDishes, setSimilarRestaurantDishes] = useState([]);
-  // const {
-  //     coord: { lat, lng },
-  // } = useContext(Coordinates);
+
+  const {
+    coordinate: { latitude, longitude },
+  } = useContext(Coordinates);
 
   const PromotedRestaurant = withHoc(SearchRestaurant);
 
   const filterOptions = ["Restaurant", "Dishes"];
 
-  const [activeBtn, setActiveBtn] = useState(null);
+  const [activeBtn, setActiveBtn] = useState("Dishes");
 
   const dispatch = useDispatch();
 
@@ -31,7 +34,7 @@ function Search() {
 
   async function fetchDishes() {
     let data = await fetch(
-      `https://www.swiggy.com/dapi/restaurants/search/v3?lat=18.9690247&lng=72.8205292&str=${searchQuery}&trackingId=4836a39e-ca12-654d-dc3b-2af9d645f8d7&submitAction=ENTER&queryUniqueId=7abdce29-5ac6-7673-9156-3022b0e032f0`
+      `https://www.swiggy.com/dapi/restaurants/search/v3?lat=${latitude}&lng=${longitude}&str=${searchQuery}&trackingId=4836a39e-ca12-654d-dc3b-2af9d645f8d7&submitAction=ENTER&queryUniqueId=7abdce29-5ac6-7673-9156-3022b0e032f0`
     );
     const res = await data.json();
     console.log(res);
@@ -45,7 +48,7 @@ function Search() {
 
   async function fetchRestaurant() {
     let data = await fetch(
-      `https://www.swiggy.com/dapi/restaurants/search/v3?lat=18.9690247&lng=72.8205292&str=${searchQuery}&trackingId=4836a39e-ca12-654d-dc3b-2af9d645f8d7&submitAction=ENTER&queryUniqueId=7abdce29-5ac6-7673-9156-3022b0e032f0&selectedPLTab=RESTAURANT`
+      `https://www.swiggy.com/dapi/restaurants/search/v3?lat=${latitude}&lng=${longitude}&str=${searchQuery}&trackingId=4836a39e-ca12-654d-dc3b-2af9d645f8d7&submitAction=ENTER&queryUniqueId=7abdce29-5ac6-7673-9156-3022b0e032f0&selectedPLTab=RESTAURANT`
     );
     const res = await data.json();
     const finalResponse =
@@ -78,19 +81,19 @@ function Search() {
   }, [isSimiliarRestaurantDishes]);
 
   async function fetchSimilarRestaurantDishes() {
-    // let pathname = `/city/${city}/${resLocation}`;
-    // let encodedPath = encodeURIComponent(pathname);
-    // let data = await fetch(
-    //     `${import.meta.env.VITE_BASE_URL}/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searchQuery}&trackingId=null&submitAction=ENTER&selectedPLTab=dish-add&restaurantMenuUrl=${encodedPath}-rest${resId}%3Fquery%3D${searchQuery}&restaurantIdOfAddedItem=${resId}&itemAdded=${itemId}`
-    // );
-    // let res = await data.json();
-    // // console.log("res", res);
-    // // console.log(res?.data?.cards);
-    // // console.log(res?.data?.cards[1])
-    // setSelectedResDish(res?.data?.cards[1]);
-    // // console.log(res?.data?.cards[2]?.card?.card?.cards)
-    // setSimilarResDishes(res?.data?.cards[2]?.card?.card?.cards);
-    // dispatch(resetSimilarResDish());
+    let pathname = `/city/${city}/${resLocation}`;
+    let encodedPath = encodeURIComponent(pathname);
+    let data = await fetch(
+        `https://www.swiggy.com/dapi/restaurants/search/v3?lat=${latitude}&lng=${longitude}&str=${searchQuery}&trackingId=null&submitAction=ENTER&selectedPLTab=dish-add&restaurantMenuUrl=${encodedPath}-rest${resId}%3Fquery%3D${searchQuery}&restaurantIdOfAddedItem=${resId}&itemAdded=${itemId}`
+    );
+    let res = await data.json();
+    // console.log("res", res);
+    // console.log(res?.data?.cards);
+    // console.log(res?.data?.cards[1])
+    setSelectedRestaurantDish(res?.data?.cards[1]);
+    // console.log(res?.data?.cards[2]?.card?.card?.cards)
+    setSimilarRestaurantDishes(res?.data?.cards[2]?.card?.card?.cards);
+    dispatch(resetSimilarRestaurantDish());
   }
 
   return (
@@ -129,17 +132,17 @@ function Search() {
           <>
             <div>
               <p className="p-4">Item added to cart</p>
-              <Dish data={selectedResDish.card.card} />
+              <Dish data={selectedRestaurantDish.card.card} />
               <p className="p-4">More dishes from this restaurant</p>
             </div>
             <br />
 
-            {similarResDishes.map((data, i) => (
+            {similarRestaurantDishes.map((data, i) => (
               <Dish
                 key={i}
                 data={{
                   ...data.card,
-                  restaurant: selectedResDish.card.card.restaurant,
+                  restaurant: selectedRestaurantDish.card.card.restaurant,
                 }}
               />
             ))}
