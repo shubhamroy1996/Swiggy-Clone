@@ -1,14 +1,18 @@
 import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { toggleDifferentRestaurant } from "../../../utils/toggleSlice";
+import {
+  setSimilarRestaurantDish,
+  toggleDifferentRestaurant
+} from "../../../utils/toggleSlice";
 import { clearCart } from "../../../utils/cartSlice";
 import { Link } from "react-router-dom";
+import AddToCartBtn from "./AddToCartBtn";
 
 function Dish({
   data: {
     info,
-    restaurant: { info: resInfo },
+    restaurant: { info: restaurantInfo },
     hideRestaurantDetails = false,
   },
 }) {
@@ -18,21 +22,26 @@ function Dish({
     "https://www.kindpng.com/picc/m/151-1515155_veg-icon-png-non-veg-symbol-png-transparent.png";
 
   let { imageId = "", name, price, isVeg = 0, id: itemId } = info;
-  console.log(resInfo);
+ 
   let {
     id,
-    name: resName,
+    name: restaurantName,
     avgRating,
     sla: { slaString },
     slugs: { city, restaurant: resLocation },
-  } = resInfo;
+  } = restaurantInfo;
+
+
 
   const isDiffRes = useSelector(
     (state) => state.toggleSlice.isDifferentRestaurant
   );
-  const { id: cartResId } = useSelector(
-    (state) => state.cartSlice.restaurantInfo
-  );
+
+  //const { id: cartResId } = useSelector((state) => state.cartSlice.restaurantInfo) || {id};
+  
+  const { id: cartResId } = useSelector((state) => state.cartSlice.restaurantInfo);
+
+    console.log("!!!!!!!!!!!", cartResId)
   const dispatch = useDispatch();
 
   function handleIsDiffRes() {
@@ -44,18 +53,19 @@ function Dish({
     handleIsDiffRes();
   }
 
-  // function handleSameRes() {
-  //     if (cartResId == id || !cartResId) {
-  //         // dispatch(toggleIsSimilarResDishes());
-  //         dispatch(setSimilarRestaurantDish({
-  //             isSimilarResDishes : true,
-  //             city ,
-  //             resLocation ,
-  //             resId : id,
-  //             itemId
-  //         }))
-  //     }
-  // }
+  function handleSameRestaurant() {
+   if(cartResId == id || !cartResId){
+      dispatch(
+        setSimilarRestaurantDish({
+          isSimilarResDishes: true,
+          city,
+          resLocation,
+          resId: id,
+          itemId,
+        })
+      );
+   }
+  }
 
   return (
     <>
@@ -65,7 +75,7 @@ function Dish({
             <Link to={`/restaurantMenu/${resLocation}-${id}`}>
               <div className="flex justify-between text-sm opacity-50">
                 <div className="">
-                  <p className="font-bold">By {resName}</p>
+                  <p className="font-bold">By {restaurantName}</p>
                   <p className="my-2">
                     {" "}
                     <i className="fi fi-ss-star"></i> {avgRating} . {slaString}
@@ -102,6 +112,13 @@ function Dish({
               }
               alt=""
             />
+            <div onClick={handleSameRestaurant}>
+              <AddToCartBtn
+                info={info}
+                restaurantInfo={restaurantInfo}
+                handleIsDiffRes={handleIsDiffRes}
+              />
+            </div>
           </div>
         </div>
       </div>
