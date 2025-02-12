@@ -12,9 +12,8 @@ function Body() {
   const [onlineRestaurantTitle, setOnlineRestaurantTitle] = useState("");
   const [unserviceable, setUnserviceable] = useState([]);
 
-  const {
-    coordinate: { latitude, longitude },
-  } = useContext(Coordinates);
+  const {coordinate: { latitude, longitude }} = useContext(Coordinates);
+
   const filterVal = useSelector((state) => state?.filterSlice?.filterVal);
 
   async function FetchData() {
@@ -22,17 +21,15 @@ function Body() {
       `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${latitude}&lng=${longitude}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`
     );
     const result = await data.json();
-    // console.log(result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-    setBrowseByCuisineData(
-      result?.data?.cards[0]?.card?.card?.imageGridCards?.info
-    );
+
     setUnserviceable(result.data);
-    setRestaurantListData(
-      result?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants
-    );
-    setTopRestaurantTitle(result?.data?.cards[1]?.card?.card?.header?.title);
-    setOnlineRestaurantTitle(result?.data?.cards[2]?.card?.card?.title);
+    setBrowseByCuisineData(result?.data?.cards.find((data)=> data?.card?.card?.id == "whats_on_your_mind")?.card?.card?.imageGridCards?.info)
+    let restaurantGridDataList= result?.data?.cards.find((data)=> data?.card?.card?.id == "top_brands_for_you")?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    setRestaurantListData(restaurantGridDataList);
+    setTopRestaurantTitle(result?.data?.cards.find((data)=> data?.card?.card?.id == "top_brands_for_you")?.card?.card?.header?.title);
+    setOnlineRestaurantTitle(result?.data?.cards.find((data)=> data?.card?.card?.id == "popular_restaurants_title")?.card?.card?.title);
+
+    // setBrowseByCuisineData(result?.data?.cards[0]?.card?.card?.imageGridCards?.info);
   }
 
   useEffect(() => {
