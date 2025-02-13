@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import DiscountData from "./DiscountData";
 import RestaurantInfo from "./RestaurantInfo";
 import RestaurantMenuCard from "./RestaurantMenuCard";
+import { MenuShimmer } from "../Shimmer/Shimmer";
 
 function RestaurantMenu() {
   const [menuData, setMenuData] = useState([]);
@@ -46,13 +47,19 @@ function RestaurantMenu() {
   return (
     <>
       <div className="w-full">
-        <div className="w-[810px] mx-auto pt-8">
-          <RestaurantInfo restaurantInfo={restaurantInfo} />
-
-          <DiscountData discountData={discountData} />
-
-          <RestaurantMenuCard menuData={menuData} topPick={topPick} restaurantInfo={restaurantInfo} />
-        </div>
+        {menuData.length ? (
+          <div className="w-[810px] mx-auto pt-8">
+            <RestaurantInfo restaurantInfo={restaurantInfo} />
+            <DiscountData discountData={discountData} />
+            <RestaurantMenuCard
+              menuData={menuData}
+              topPick={topPick}
+              restaurantInfo={restaurantInfo}
+            />
+          </div>
+        ) : (
+          <MenuShimmer />
+        )}
       </div>
     </>
   );
