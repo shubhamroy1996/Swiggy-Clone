@@ -64,7 +64,7 @@ function RestaurantInfo({ restaurantInfo }) {
                       <img
                         className="w-6"
                         src={
-                          "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_40,h_40/" +
+                          `${import.meta.env.VITE_MEDIA_URL}/fl_lossy,f_auto,q_auto,w_40,h_40/` +
                           restaurantInfo.feeDetails?.icon
                         }
                         alt=""

@@ -31,7 +31,7 @@ function Header() {
   async function searchLocation(value) {
     if (value === "") return;
     const data = await fetch(
-      `https://www.swiggy.com/dapi/misc/place-autocomplete?input=${value}`
+      `${import.meta.env.VITE_BASE_URL}/misc/place-autocomplete?input=${value}`
     );
     const result = await data.json();
     setSearchResult(result.data);
@@ -41,7 +41,7 @@ function Header() {
     if (id === "") return;
 
     const data = await fetch(
-      `https://www.swiggy.com/dapi/misc/address-recommend?place_id=${id}`
+      `${import.meta.env.VITE_BASE_URL}/misc/address-recommend?place_id=${id}`
     );
     const result = await data.json();
     handleVisibility();

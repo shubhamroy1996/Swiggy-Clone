@@ -41,7 +41,6 @@ function Dish({
   
   const { id: cartResId } = useSelector((state) => state.cartSlice.restaurantInfo);
 
-    console.log("!!!!!!!!!!!", cartResId)
   const dispatch = useDispatch();
 
   function handleIsDiffRes() {
@@ -107,7 +106,7 @@ function Dish({
             <img
               className="rounded-xl object-cover aspect-square"
               src={
-                "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" +
+                `${import.meta.env.VITE_MEDIA_URL}/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/` +
                 imageId
               }
               alt=""

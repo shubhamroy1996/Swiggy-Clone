@@ -34,7 +34,7 @@ function Search() {
 
   async function fetchDishes() {
     let data = await fetch(
-      `https://www.swiggy.com/dapi/restaurants/search/v3?lat=${latitude}&lng=${longitude}&str=${searchQuery}&trackingId=4836a39e-ca12-654d-dc3b-2af9d645f8d7&submitAction=ENTER&queryUniqueId=7abdce29-5ac6-7673-9156-3022b0e032f0`
+      `${import.meta.env.VITE_BASE_URL}/restaurants/search/v3?lat=${latitude}&lng=${longitude}&str=${searchQuery}&trackingId=4836a39e-ca12-654d-dc3b-2af9d645f8d7&submitAction=ENTER&queryUniqueId=7abdce29-5ac6-7673-9156-3022b0e032f0`
     );
     const res = await data.json();
     console.log(res);
@@ -48,7 +48,7 @@ function Search() {
 
   async function fetchRestaurant() {
     let data = await fetch(
-      `https://www.swiggy.com/dapi/restaurants/search/v3?lat=${latitude}&lng=${longitude}&str=${searchQuery}&trackingId=4836a39e-ca12-654d-dc3b-2af9d645f8d7&submitAction=ENTER&queryUniqueId=7abdce29-5ac6-7673-9156-3022b0e032f0&selectedPLTab=RESTAURANT`
+      `${import.meta.env.VITE_BASE_URL}/restaurants/search/v3?lat=${latitude}&lng=${longitude}&str=${searchQuery}&trackingId=4836a39e-ca12-654d-dc3b-2af9d645f8d7&submitAction=ENTER&queryUniqueId=7abdce29-5ac6-7673-9156-3022b0e032f0&selectedPLTab=RESTAURANT`
     );
     const res = await data.json();
     const finalResponse =
@@ -84,7 +84,7 @@ function Search() {
     let pathname = `/city/${city}/${resLocation}`;
     let encodedPath = encodeURIComponent(pathname);
     let data = await fetch(
-        `https://www.swiggy.com/dapi/restaurants/search/v3?lat=${latitude}&lng=${longitude}&str=${searchQuery}&trackingId=null&submitAction=ENTER&selectedPLTab=dish-add&restaurantMenuUrl=${encodedPath}-rest${resId}%3Fquery%3D${searchQuery}&restaurantIdOfAddedItem=${resId}&itemAdded=${itemId}`
+        `${import.meta.env.VITE_BASE_URL}/restzaurants/search/v3?lat=${latitude}&lng=${longitude}&str=${searchQuery}&trackingId=null&submitAction=ENTER&selectedPLTab=dish-add&restaurantMenuUrl=${encodedPath}-rest${resId}%3Fquery%3D${searchQuery}&restaurantIdOfAddedItem=${resId}&itemAdded=${itemId}`
     );
     let res = await data.json();
     // console.log("res", res);

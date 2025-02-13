@@ -75,7 +75,7 @@ function RestaurantMenuCard({ menuData, topPick, restaurantInfo }) {
                   <div key={i} className="min-w-[310px] relative h-[315px]">
                     <img
                       className="w-full h-full"
-                      src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_292,h_300/${data?.creativeId}`}
+                      src={`${import.meta.env.VITE_MEDIA_URL}/fl_lossy,f_auto,q_auto,w_292,h_300/${data?.creativeId}`}
                       alt=""
                     />
 

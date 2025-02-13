@@ -107,7 +107,7 @@ function DetailedMenu({ info, restaurantInfo }) {
         <div className="relative h-full">
           <img
             className=" h-[144px] w-[156px] rounded-2xl  "
-            src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/${imageId}`}
+            src={`${import.meta.env.VITE_MEDIA_URL}/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/${imageId}`}
           />
           <button
             onClick={handleAddToCart}

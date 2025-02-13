@@ -8,7 +8,7 @@ function RestaurantList(info) {
         <div key={info.id} className="min-w-[273px] h-[182px] relative">
           <img
             className="w-full h-full rounded-2xl object-cover"
-            src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_360/${info?.cloudinaryImageId}`}
+            src={`${import.meta.env.VITE_MEDIA_URL}/fl_lossy,f_auto,q_auto,w_288,h_360/${info?.cloudinaryImageId}`}
             alt=""
           />
           <div className="bg-gradient-to-t from-slate-900 from-1% to-transparent to-40% rounded-2xl w-full h-full absolute top-0"></div>

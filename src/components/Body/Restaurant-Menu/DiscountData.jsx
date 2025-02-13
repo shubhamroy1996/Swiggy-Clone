@@ -57,7 +57,7 @@ function DiscountData({ discountData }) {
                 className="flex gap-2  min-w-[328px] border p-3 h-[76px] rounded-2xl"
               >
                 <img
-                  src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_96,h_96/${data?.info?.offerLogo}`}
+                  src={`${import.meta.env.VITE_MEDIA_URL}/fl_lossy,f_auto,q_auto,w_96,h_96/${data?.info?.offerLogo}`}
                   alt=""
                 />
 
