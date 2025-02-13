@@ -162,7 +162,7 @@ function Header() {
                       {userData ? (
                         <img
                           src={userData.profilePhoto}
-                          className="rounded-full w-12"
+                          className="rounded-full w-10"
                           alt=""
                         />
                       ) : (
